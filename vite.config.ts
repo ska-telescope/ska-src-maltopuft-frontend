@@ -1,3 +1,5 @@
+import path from 'path';
+
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import istanbul from 'vite-plugin-istanbul';
@@ -5,6 +7,15 @@ import istanbul from 'vite-plugin-istanbul';
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '/',
+
+  // Module aliasing.
+  // Resolve @ to ./src
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src')
+    }
+  },
+
   plugins: [
     react(),
 
