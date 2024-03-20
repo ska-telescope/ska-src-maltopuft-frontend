@@ -38,3 +38,4 @@ cypress/screenshots
 cypress/downloads
 cypress/videos
 **/*.mp4
+.nyc_output
