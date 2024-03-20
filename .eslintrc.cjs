@@ -12,6 +12,7 @@ module.exports = {
     'airbnb',
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended-type-checked',
+    "plugin:cypress/recommended",
     "plugin:import/typescript",
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",

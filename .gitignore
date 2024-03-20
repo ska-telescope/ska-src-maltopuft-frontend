@@ -34,3 +34,7 @@ dist-ssr
 # Testing
 /coverage
 linting.xml
+cypress/screenshots
+cypress/downloads
+cypress/videos
+**/*.mp4

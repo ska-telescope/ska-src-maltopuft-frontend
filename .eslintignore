@@ -10,4 +10,8 @@ dist
 **/*.py
 **/*.svg
 **/*.html
-jest.config.js
+
+# Cypress
+cypress.config.ts
+**/*.cy.tsx
+cypress/
