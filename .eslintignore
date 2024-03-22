@@ -1,0 +1,17 @@
+# Taken from https://gitlab.com/ska-telescope/templates/ska-react-webapp-skeleton/-/blob/1.0.0/.eslintignore?ref_type=tags
+node_modules
+coverage
+**/*.css
+**/*.scss
+**/*.ttf
+webpack.config.js
+build
+dist
+**/*.py
+**/*.svg
+**/*.html
+
+# Cypress
+cypress.config.ts
+**/*.cy.tsx
+cypress/
