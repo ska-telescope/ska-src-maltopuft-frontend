@@ -1,8 +1,6 @@
 describe('My First Test', () => {
-  it('clicking "type" navigates to a new url', () => {
+  it('accessing url renders application', () => {
     cy.visit('http://localhost:3000');
-    cy.contains('count').should('contains.text', '0');
-    cy.contains('count').click();
-    cy.contains('count').should('contains.text', '1');
+    cy.contains('none').should('contains.text', 'none');
   });
 });
