@@ -15,6 +15,9 @@
 !*.tsx
 !*.yml
 
+# CI pipeline
+.gitlab-ci.yml
+
 ## From .gitignore
 
 # Logs
