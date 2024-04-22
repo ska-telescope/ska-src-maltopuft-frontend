@@ -18,7 +18,7 @@ Typescript 5.2 is used throughout the project. For an introduction to Typescript
 npm run prettier
 
 # Modify files to fix issues
-npm run prettier:fix 
+npm run prettier:fix
 ```
 
 ## Linting with ESLint
@@ -33,13 +33,13 @@ npm run lint:fix
 
 ## Module aliasing
 
-Modules located within the `src` directory are *aliased* to `@`. In practice this means that `foo` located at `src/bar.ts` can be imported throughout the application as follows:
+Modules located within the `src` directory are _aliased_ to `@`. In practice this means that `foo` located at `src/bar.ts` can be imported throughout the application as follows:
 
 ```javascript
 import { foo } from '@/bar';
 ```
 
-To add further aliasing to modules, the base configuration found in `vite.config.ts` and `tsconfig.json` both need to be extended. For example, to alias the module the `./src/components` as `@components`, the configurations could look similar to those below:  
+To add further aliasing to modules, the base configuration found in `vite.config.ts` and `tsconfig.json` both need to be extended. For example, to alias the module the `./src/components` as `@components`, the configurations could look similar to those below:
 
 ```javascript
 // vite.config.json

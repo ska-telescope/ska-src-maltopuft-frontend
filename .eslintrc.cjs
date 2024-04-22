@@ -41,6 +41,14 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/comma-dangle': 1,
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        "checksVoidReturn": {
+          "attributes": false
+        }
+      }
+    ],
     '@typescript-eslint/no-shadow': ['error'],
     '@typescript-eslint/no-var-requires': 'off',
     'class-methods-use-this': 'off',

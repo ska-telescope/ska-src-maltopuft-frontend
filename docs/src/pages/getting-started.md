@@ -1,9 +1,10 @@
 # Getting started
+
 ## Prerequisites
 
-* Node.js
-* npm
-* Modern web browser
+- Node.js
+- npm
+- Modern web browser
 
 It is strongly recommended to use a Node version manager such as [nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file):
 
@@ -31,13 +32,13 @@ npm run dev
 
 ## Build
 
-The repository can be built by running the following command: 
+The repository can be built by running the following command:
 
 ```bash
 npm run build
 ```
 
-The static files produced by the build can be served over a web-server. For example, using the `http.server` module packaged with python3 installations: 
+The static files produced by the build can be served over a web-server. For example, using the `http.server` module packaged with python3 installations:
 
 ```bash
 # Navigate to the build directory

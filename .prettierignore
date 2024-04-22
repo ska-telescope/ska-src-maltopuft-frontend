@@ -20,6 +20,13 @@
 
 ## From .gitignore
 
+# Submodules
+.make/
+
+# Docs
+**/build
+.venv
+
 # Logs
 logs
 *.log
