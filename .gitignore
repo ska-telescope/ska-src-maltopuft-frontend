@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Submodules
+.make/
+
 # Docs
 **/build
 .venv

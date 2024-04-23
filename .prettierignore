@@ -15,7 +15,17 @@
 !*.tsx
 !*.yml
 
+# CI pipeline
+.gitlab-ci.yml
+
 ## From .gitignore
+
+# Submodules
+.make/
+
+# Docs
+**/build
+.venv
 
 # Logs
 logs

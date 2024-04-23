@@ -11,6 +11,16 @@ dist
 **/*.svg
 **/*.html
 
+# Submodules
+.make/
+
+# CI pipeline
+.gitlab-ci.yml
+
+# Docs
+**/build
+.venv
+
 # Cypress
 cypress.config.ts
 **/*.cy.tsx

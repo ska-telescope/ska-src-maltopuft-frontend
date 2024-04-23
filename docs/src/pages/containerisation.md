@@ -4,7 +4,7 @@
 
 An OCI image for the application can be built with:
 
-```bash 
+```bash
 podman build -t ska-src-maltopuft-frontend:latest .
 ```
 
