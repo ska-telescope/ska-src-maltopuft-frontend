@@ -1,4 +1,4 @@
-import { axios } from '@/lib/axios';
+import { api } from '@/lib/axios';
 
 interface pingResponse {
   data: string;
@@ -6,7 +6,7 @@ interface pingResponse {
 
 export async function doPing(): Promise<pingResponse> {
   try {
-    const response = await axios.get<pingResponse>('/ping');
+    const response = await api.get<pingResponse>('/ping');
     return response.data;
   } catch (error) {
     return { data: 'unhealthy' };

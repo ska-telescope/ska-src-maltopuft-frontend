@@ -1,26 +1,28 @@
-import { useState } from 'react';
-
+// import { useState } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css';
 
-import { doPing } from '@/ping/ping';
+import ErrorPage from '@/pages/ErrorPage';
+import HomePage from '@/pages/HomePage';
+import LoginCallbackPage from '@/pages/LoginCallbackPage';
 
 function App() {
-  const [data, setData] = useState<{ data: string }>({ data: 'none' });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const handleClick = async () => {
-    setIsLoading(true);
-    const response = await doPing();
-    setData(response);
-    setIsLoading(false);
-  };
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <HomePage />,
+      errorElement: <ErrorPage />
+    },
+    {
+      path: '/callback',
+      element: <LoginCallbackPage />,
+      errorElement: <ErrorPage />
+    }
+  ]);
 
   return (
     <div>
-      <button type="button" onClick={handleClick}>
-        {data.data}
-      </button>
-      {isLoading && <h2>Loading...</h2>}
+      <RouterProvider router={router} />
     </div>
   );
 }
