@@ -12,6 +12,8 @@ default:
   before_script:
     # Install bash and make
     - (apt update && apt-get install make)
+    # Set environment variables
+    - cp ${CI_ENV_FILE} .env
     # Install npm packages
     - npm install
   cache:
@@ -56,6 +58,7 @@ js-test:
   image: cypress/browsers:node-20.12.2-chrome-124.0.6367.60-1-ff-125.0.1-edge-124.0.2478.51-1
   before_script:
     - (apt update && apt-get install make)
+    - cp ${CI_ENV_FILE} .env
     - npm ci
     - npx cypress cache path
     - npx cypress cache list
