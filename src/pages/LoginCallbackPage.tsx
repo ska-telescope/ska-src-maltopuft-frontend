@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Navigate } from 'react-router-dom';
 
 import { fetchToken } from '@/features/auth/api/login.ts';
@@ -19,7 +19,7 @@ function LoginCallbackPage() {
 
   const { data, isSuccess } = useQuery({
     queryKey: ['token'],
-    queryFn: getToken
+    queryFn: () => getToken()
   });
 
   if (isSuccess) {

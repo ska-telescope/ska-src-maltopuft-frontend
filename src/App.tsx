@@ -4,6 +4,7 @@ import './App.css';
 
 import ErrorPage from '@/pages/ErrorPage';
 import HomePage from '@/pages/HomePage';
+import LabelPage from '@/pages/LabelPage';
 import LoginCallbackPage from '@/pages/LoginCallbackPage';
 
 function App() {
@@ -11,6 +12,11 @@ function App() {
     {
       path: '/',
       element: <HomePage />,
+      errorElement: <ErrorPage />
+    },
+    {
+      path: '/label',
+      element: <LabelPage />,
       errorElement: <ErrorPage />
     },
     {
