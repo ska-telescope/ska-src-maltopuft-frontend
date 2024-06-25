@@ -20,8 +20,8 @@ export type Entity = Response<{
   css_color: string;
 }>;
 
-export type Label = Response<{
-  labeller_id: number;
+export type Label = {
+  labeller_id: number | null;
   candidate_id: number;
   entity_id: number;
-}>;
+};

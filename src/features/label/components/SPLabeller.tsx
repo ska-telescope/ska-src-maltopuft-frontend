@@ -1,18 +1,25 @@
-import { useSinglePulses } from '../api/getSinglePulses';
+import { useState } from 'react';
 
-import Chart from './Chart';
+import { Label } from '../types';
+
+import ChartContainer from './ChartContainer';
+import LabelButtonContainer from './LabelButtonContainer';
 
 function SPLabeller() {
-  const singlePulseQuery = useSinglePulses();
+  const [selection, setSelection] = useState<number[]>([]);
+  const [labels, setLabels] = useState<Label[]>([]);
 
-  if (singlePulseQuery.isLoading) {
-    return <Chart data={[]} />;
-  }
-  if (singlePulseQuery.isSuccess) {
-    return <Chart data={singlePulseQuery.data} />;
-  }
-
-  return null;
+  return (
+    <>
+      <LabelButtonContainer
+        labels={labels}
+        setLabels={setLabels}
+        selection={selection}
+        setSelection={setSelection}
+      />
+      <ChartContainer labels={labels} setSelection={setSelection} />
+    </>
+  );
 }
 
 export default SPLabeller;
