@@ -4,6 +4,7 @@ import { Label } from '../types';
 
 import ChartContainer from './ChartContainer';
 import LabelButtonContainer from './LabelButtonContainer';
+import PostLabelButton from './PostLabelButton';
 
 function SPLabeller() {
   const [selection, setSelection] = useState<number[]>([]);
@@ -11,6 +12,7 @@ function SPLabeller() {
 
   return (
     <>
+      <PostLabelButton labels={labels} />
       <LabelButtonContainer
         labels={labels}
         setLabels={setLabels}

@@ -135,14 +135,12 @@ function ChartContainer({ ...props }: ChartContainerProps) {
     return plotData;
   }
 
-  if (entitiesQuery.isLoading && singlePulseQuery.isLoading) {
+  if (!(entitiesQuery.isSuccess && singlePulseQuery.isSuccess)) {
     return <Chart data={[]} setSelection={props.setSelection} />;
   }
-  if (entitiesQuery.isSuccess && singlePulseQuery.isSuccess) {
-    const data = getPlotData(entitiesQuery.data, props.labels, singlePulseQuery.data);
-    return <Chart data={data} setSelection={props.setSelection} />;
-  }
-  return null;
+
+  const data = getPlotData(entitiesQuery.data, props.labels, singlePulseQuery.data);
+  return <Chart data={data} setSelection={props.setSelection} />;
 }
 
 export default ChartContainer;
