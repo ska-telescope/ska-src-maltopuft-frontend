@@ -1,6 +1,6 @@
 import Axios, { InternalAxiosRequestConfig } from 'axios';
 
-import { AUTH_API_URL, BACKEND_API_URL } from '@/config';
+import { AUTH_API_URL, BACKEND_API_URL, SUBPLOT_URL } from '@/config';
 import { Token } from '@/features/auth/types';
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
@@ -28,4 +28,8 @@ api.interceptors.request.use(authRequestInterceptor);
 
 export const authAPI = Axios.create({
   baseURL: AUTH_API_URL
+});
+
+export const subplotAPI = Axios.create({
+  baseURL: SUBPLOT_URL
 });

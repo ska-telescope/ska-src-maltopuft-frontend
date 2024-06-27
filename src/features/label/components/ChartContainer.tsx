@@ -1,9 +1,14 @@
+import { useState } from 'react';
+
 import { useEntities } from '../api/getEntities';
 import { useSinglePulses } from '../api/getSinglePulses';
+import { useSubplots } from '../api/getSubplot';
 import { basePlotData } from '../config';
-import { Entity, Label, SinglePulse } from '../types';
+import { Entity, Label, SinglePulse, SubplotData } from '../types';
 
 import Chart from './Chart';
+
+import { queryClient } from '@/lib/react-query';
 
 interface ChartContainerProps {
   labels: Label[];
@@ -11,8 +16,18 @@ interface ChartContainerProps {
 }
 
 function ChartContainer({ ...props }: ChartContainerProps) {
+  const [hoverPoint, setHoverPoint] = useState<Plotly.PlotHoverEvent | null>(null);
+
   const entitiesQuery = useEntities();
   const singlePulseQuery = useSinglePulses();
+
+  // Allow the subplots query results object to exist before the single pulse
+  // query results are loaded.
+  let sps: SinglePulse[] = [];
+  if (singlePulseQuery.isSuccess) {
+    sps = singlePulseQuery.data.map((sp: SinglePulse) => sp);
+  }
+  useSubplots(sps);
 
   /**
    * For an entities array (length N) and a labels array (length M), creates
@@ -135,12 +150,51 @@ function ChartContainer({ ...props }: ChartContainerProps) {
     return plotData;
   }
 
+  /**
+   * Fetch the subplot for the data point being hovered over
+   * @returns The base64 encoded subplot image data
+   */
+  function getSubplot(): string | undefined {
+    if (hoverPoint === null) {
+      return undefined;
+    }
+    const hoverCandidateId = hoverPoint.points[0].customdata;
+
+    // Only return the subplot if fetch has completed
+    const fetchState = queryClient.getQueryState(['subplot', hoverCandidateId]);
+    if (fetchState?.status === 'success') {
+      const hoverCandidateQueryData = queryClient.getQueryData<SubplotData>([
+        'subplot',
+        hoverCandidateId
+      ]);
+      if (hoverCandidateQueryData !== undefined) {
+        const hoverCandidateImageData = hoverCandidateQueryData.imageData;
+        return hoverCandidateImageData;
+      }
+    }
+    return undefined;
+  }
+
   if (!(entitiesQuery.isSuccess && singlePulseQuery.isSuccess)) {
-    return <Chart data={[]} setSelection={props.setSelection} />;
+    return (
+      <Chart
+        data={[]}
+        setSelection={props.setSelection}
+        setHoverPoint={setHoverPoint}
+        subplot={undefined}
+      />
+    );
   }
 
   const data = getPlotData(entitiesQuery.data, props.labels, singlePulseQuery.data);
-  return <Chart data={data} setSelection={props.setSelection} />;
+  return (
+    <Chart
+      data={data}
+      setSelection={props.setSelection}
+      setHoverPoint={setHoverPoint}
+      subplot={getSubplot()}
+    />
+  );
 }
 
 export default ChartContainer;

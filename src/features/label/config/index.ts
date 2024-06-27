@@ -39,5 +39,11 @@ export const basePlotLayout: Partial<Plotly.Layout> = {
   modebar: { bgcolor: 'rgba(0, 0, 0, 0)' },
   clickmode: 'event+select',
   legend: { font: { color: '#cccccc' } },
-  uirevision: 'true'
+  uirevision: 'true',
+  hovermode: 'closest'
+};
+
+export const subplotDimensions = {
+  width: 500,
+  height: 350
 };

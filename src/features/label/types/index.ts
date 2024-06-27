@@ -10,7 +10,7 @@ export type Candidate = Response<{
 
 export type SinglePulse = Response<{
   candidate_id: number;
-  data_path: string;
+  plot_path: string;
   observed_at: Date;
   candidate: Candidate;
 }>;
@@ -25,3 +25,9 @@ export type Label = {
   candidate_id: number;
   entity_id: number;
 };
+
+export interface SubplotData {
+  candidate_id: number;
+  plot_path: string;
+  imageData: string;
+}
