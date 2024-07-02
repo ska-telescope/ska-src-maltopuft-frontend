@@ -13,13 +13,14 @@ import { queryClient } from '@/lib/react-query';
 interface ChartContainerProps {
   labels: Label[];
   setSelection: React.Dispatch<React.SetStateAction<number[]>>;
+  page: number;
 }
 
 function ChartContainer({ ...props }: ChartContainerProps) {
   const [hoverPoint, setHoverPoint] = useState<Plotly.PlotHoverEvent | null>(null);
 
   const entitiesQuery = useEntities();
-  const singlePulseQuery = useSinglePulses();
+  const singlePulseQuery = useSinglePulses(props.page);
 
   // Allow the subplots query results object to exist before the single pulse
   // query results are loaded.
