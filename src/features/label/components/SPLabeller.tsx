@@ -15,12 +15,7 @@ function SPLabeller() {
   return (
     <>
       <PostLabelButton labels={labels} />
-      <LabelButtonContainer
-        labels={labels}
-        setLabels={setLabels}
-        selection={selection}
-        setSelection={setSelection}
-      />
+      <LabelButtonContainer labels={labels} setLabels={setLabels} selection={selection} />
       <ChartContainer labels={labels} setSelection={setSelection} page={pageNumber} />
       <SinglePulsePaginationButton
         pageSize={100}

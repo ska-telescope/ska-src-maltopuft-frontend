@@ -32,6 +32,13 @@ function Chart({ ...props }: ChartProps) {
   }
 
   /**
+   * Updates the local state to an empty array
+   */
+  function handleDeselect(): void {
+    props.setSelection([]);
+  }
+
+  /**
    * Transforms the coordinates of the point being hovered over to determine
    * the top left coordinates of the candidate subplot div for rendering.
    *
@@ -113,6 +120,7 @@ function Chart({ ...props }: ChartProps) {
       <Plot
         data={props.data}
         onSelected={handleSelect}
+        onDeselect={handleDeselect}
         onHover={handleHover}
         onUnhover={handleUnhover}
         layout={basePlotLayout}

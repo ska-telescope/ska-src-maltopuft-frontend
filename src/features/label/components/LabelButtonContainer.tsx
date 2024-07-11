@@ -7,7 +7,6 @@ interface LabelButtonsBarContainerProps {
   labels: Label[];
   setLabels: React.Dispatch<React.SetStateAction<Label[]>>;
   selection: number[];
-  setSelection: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 function LabelButtonContainer({ ...props }: LabelButtonsBarContainerProps) {
@@ -27,7 +26,6 @@ function LabelButtonContainer({ ...props }: LabelButtonsBarContainerProps) {
           labels={props.labels}
           setLabels={props.setLabels}
           selection={props.selection}
-          setSelection={props.setSelection}
         />
       ));
   }

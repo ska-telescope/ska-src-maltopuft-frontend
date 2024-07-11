@@ -9,7 +9,6 @@ interface LabelButtonProps {
   labels: Label[];
   setLabels: React.Dispatch<React.SetStateAction<Label[]>>;
   selection: number[];
-  setSelection: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 function LabelButton({ ...props }: LabelButtonProps) {
@@ -33,7 +32,6 @@ function LabelButton({ ...props }: LabelButtonProps) {
     ];
 
     props.setLabels(newLabels);
-    props.setSelection([]);
   }
 
   return (
