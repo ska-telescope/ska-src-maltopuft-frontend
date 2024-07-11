@@ -35,9 +35,12 @@ function LabelButton({ ...props }: LabelButtonProps) {
   }
 
   return (
-    <button type="button" onClick={(e) => handleClick(e)}>
-      {props.type}
-    </button>
+    <>
+      <button type="button" onClick={(e) => handleClick(e)}>
+        {props.type}
+      </button>
+      {'  '}
+    </>
   );
 }
 
