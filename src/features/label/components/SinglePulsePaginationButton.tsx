@@ -1,36 +1,46 @@
+import { useSinglePulseCount } from '../api/countSinglePulses';
 import { useSinglePulses } from '../api/getSinglePulses';
 
 interface SinglePulsePaginationButtonProps {
-  page: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
+  pageNumber: number;
+  setPageNumber: React.Dispatch<React.SetStateAction<number>>;
+  pageSize: number;
 }
 
 function SinglePulsePaginationButton({ ...props }: SinglePulsePaginationButtonProps) {
-  const singlePulseQuery = useSinglePulses(props.page);
+  const singlePulseQuery = useSinglePulses(props.pageNumber, props.pageSize);
+  const singlePulseCount = useSinglePulseCount();
 
   function handleNextClick(): void {
     if (!singlePulseQuery.isPlaceholderData) {
-      props.setPage((old: number) => old + 1);
+      props.setPageNumber((old: number) => old + 1);
     }
   }
 
   function handlePrevClick(): void {
-    props.setPage((old: number) => Math.max(old - 1, 0));
+    props.setPageNumber((old: number) => Math.max(old - 1, 0));
   }
 
   return (
     <div>
-      <span>Current Page: {props.page + 1}</span>
+      <span>
+        Viewing page {props.pageNumber + 1} of{' '}
+        {singlePulseCount.isSuccess ? Math.ceil(singlePulseCount.data / props.pageSize) : '...'}
+      </span>
       {'  '}
-      <button type="button" onClick={handlePrevClick} disabled={props.page === 0}>
+      <button type="button" onClick={handlePrevClick} disabled={props.pageNumber === 0}>
         Previous Page
       </button>
       {'  '}
       <button
         type="button"
-        // TODO: Work out if more data is available
         onClick={handleNextClick}
-        disabled={singlePulseQuery.isPlaceholderData}
+        disabled={
+          singlePulseQuery.isPlaceholderData ||
+          !singlePulseCount.isSuccess ||
+          (singlePulseCount.isSuccess &&
+            (props.pageNumber + 1) * props.pageSize >= singlePulseCount.data)
+        }
       >
         Next Page
       </button>
@@ -39,23 +49,3 @@ function SinglePulsePaginationButton({ ...props }: SinglePulsePaginationButtonPr
 }
 
 export default SinglePulsePaginationButton;
-
-// <button
-// onClick={() => setPage((old) => Math.max(old - 1, 0))}
-// disabled={page === 0}
-// >
-// Previous Page
-// </button>{' '}
-// <button
-// onClick={() => {
-//   if (!isPlaceholderData && data.hasMore) {
-//     setPage((old) => old + 1)
-//   }
-// }}
-// // Disable the Next Page button until we know a next page is available
-// disabled={isPlaceholderData || !data?.hasMore}
-// >
-// Next Page
-// </button>
-// {isFetching ? <span> Loading...</span> : null}{' '}
-// </div>

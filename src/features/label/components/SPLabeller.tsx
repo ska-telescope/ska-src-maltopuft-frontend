@@ -9,7 +9,7 @@ import SinglePulsePaginationButton from './SinglePulsePaginationButton';
 
 function SPLabeller() {
   const [labels, setLabels] = useState<Label[]>([]);
-  const [page, setPage] = useState<number>(0);
+  const [pageNumber, setPageNumber] = useState<number>(0);
   const [selection, setSelection] = useState<number[]>([]);
 
   return (
@@ -21,8 +21,12 @@ function SPLabeller() {
         selection={selection}
         setSelection={setSelection}
       />
-      <ChartContainer labels={labels} setSelection={setSelection} page={page} />
-      <SinglePulsePaginationButton page={page} setPage={setPage} />
+      <ChartContainer labels={labels} setSelection={setSelection} page={pageNumber} />
+      <SinglePulsePaginationButton
+        pageSize={100}
+        pageNumber={pageNumber}
+        setPageNumber={setPageNumber}
+      />
     </>
   );
 }
