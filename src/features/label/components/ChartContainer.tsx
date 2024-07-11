@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { useEntities } from '../api/getEntities';
+import { useLabels } from '../api/getLabels';
 import { useSinglePulses } from '../api/getSinglePulses';
 import { useSubplots } from '../api/getSubplot';
 import { basePlotData } from '../config';
@@ -11,24 +12,42 @@ import Chart from './Chart';
 import { queryClient } from '@/lib/react-query';
 
 interface ChartContainerProps {
-  labels: Label[];
+  labelsAssigned: Label[];
   setSelection: React.Dispatch<React.SetStateAction<number[]>>;
-  page: number;
+  pageNumber: number;
+  pageSize: number;
 }
 
 function ChartContainer({ ...props }: ChartContainerProps) {
   const [hoverPoint, setHoverPoint] = useState<Plotly.PlotHoverEvent | null>(null);
 
   const entitiesQuery = useEntities();
-  const singlePulseQuery = useSinglePulses(props.page);
+  const singlePulseQuery = useSinglePulses(props.pageNumber, props.pageSize);
 
-  // Allow the subplots query results object to exist before the single pulse
-  // query results are loaded.
-  let sps: SinglePulse[] = [];
-  if (singlePulseQuery.isSuccess) {
-    sps = singlePulseQuery.data.map((sp: SinglePulse) => sp);
+  const labelsQuery = useLabels(
+    singlePulseQuery.isSuccess
+      ? singlePulseQuery.data.map((sp: SinglePulse) => sp.candidate_id)
+      : []
+  );
+
+  useSubplots(singlePulseQuery.isSuccess ? singlePulseQuery.data.map((sp: SinglePulse) => sp) : []);
+
+  /**
+   * Merges the assigned and fetched labels to generate plot data.
+   * Assigned labels take precedence over fetched labels, so elements are removed from
+   * labelsFetched if they are present in labelsAssigned.
+   * @param labelsAssigned Labels assigned to candidates in the interactive session
+   * @param labelsFetched Candidate labels fetched with the MALTOPUFT API
+   * @returns The union of fetched and assigned labels
+   */
+  function getPlotLabels(labelsAssigned: Label[], labelsFetched: Label[]): Label[] {
+    if (labelsAssigned.length > 0 && labelsFetched.length > 0) {
+      labelsFetched = labelsFetched.filter((fetched: Label) =>
+        labelsAssigned.some((assigned: Label) => assigned?.candidate_id !== fetched.candidate_id)
+      );
+    }
+    return Array.from(new Set([...labelsAssigned, ...labelsFetched]));
   }
-  useSubplots(sps);
 
   /**
    * For an entities array (length N) and a labels array (length M), creates
@@ -71,12 +90,10 @@ function ChartContainer({ ...props }: ChartContainerProps) {
    */
   function mapToSinglePulseArray(labels: Label[], data: SinglePulse[]): SinglePulse[] {
     const dataMap = new Map<number, SinglePulse>();
-    data.map((sp: SinglePulse) => dataMap.set(sp.candidate_id, sp));
-    // @ts-ignore: the filter condition ensures that the Map.get result
-    // is not null
+    data.forEach((sp: SinglePulse) => dataMap.set(sp.candidate_id, sp));
     return labels
-      .map((label) => dataMap.get(label.candidate_id) ?? null)
-      .filter((value) => value !== null);
+      .map((label) => dataMap?.get(label.candidate_id) ?? null)
+      .filter((value): value is SinglePulse => value !== null);
   }
 
   /**
@@ -106,11 +123,16 @@ function ChartContainer({ ...props }: ChartContainerProps) {
    * Creates the Plotly.Chart data prop, which expects an array of
    * Plotly.PlotData objects. Each object contains the data for a
    * unique entity, allowing them to be styled differently etc.
-   * @returns
+   * @param entities The objects that can be assigned as labels
+   * @param labelsAssigned Labels assigned to candidates in the interactive session
+   * @param labelsFetched Labels fetched from the MALTOPUFT API
+   * @param data Single pulses fetched from the MALTOPUFT API
+   * @returns An array of data to be rendered by the Plotly chart
    */
   function getPlotData(
     entities: Entity[],
-    labels: Label[],
+    labelsAssigned: Label[],
+    labelsFetched: Label[],
     data: SinglePulse[]
   ): Partial<Plotly.PlotData>[] {
     const plotData: Partial<Plotly.PlotData>[] = [];
@@ -126,6 +148,7 @@ function ChartContainer({ ...props }: ChartContainerProps) {
       ];
     }
 
+    const labels = getPlotLabels(labelsAssigned, labelsFetched);
     const entitiesWithData = entitiesWithLabelsAndCandidates(entities, labels, data);
 
     entitiesWithData.forEach((entity) => {
@@ -187,7 +210,12 @@ function ChartContainer({ ...props }: ChartContainerProps) {
     );
   }
 
-  const data = getPlotData(entitiesQuery.data, props.labels, singlePulseQuery.data);
+  const data = getPlotData(
+    entitiesQuery.data,
+    props.labelsAssigned,
+    labelsQuery?.data ?? [],
+    singlePulseQuery.data
+  );
   return (
     <Chart
       data={data}

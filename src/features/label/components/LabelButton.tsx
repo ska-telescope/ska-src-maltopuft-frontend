@@ -6,8 +6,8 @@ interface LabelButtonProps {
   key: number;
   entityId: number;
   type: string;
-  labels: Label[];
-  setLabels: React.Dispatch<React.SetStateAction<Label[]>>;
+  labelsAssigned: Label[];
+  setLabelsAssigned: React.Dispatch<React.SetStateAction<Label[]>>;
   selection: number[];
 }
 
@@ -22,7 +22,9 @@ function LabelButton({ ...props }: LabelButtonProps) {
 
     const newLabels: Label[] = [
       // Remove existing labels if selection includes labelled candidates
-      ...props.labels.filter((label: Label) => !props.selection.includes(label.candidate_id)),
+      ...props.labelsAssigned.filter(
+        (label: Label) => !props.selection.includes(label.candidate_id)
+      ),
       ...props.selection.map((selectedId: number) => ({
         candidate_id: selectedId,
         entity_id: props.entityId,
@@ -31,7 +33,7 @@ function LabelButton({ ...props }: LabelButtonProps) {
       }))
     ];
 
-    props.setLabels(newLabels);
+    props.setLabelsAssigned(newLabels);
   }
 
   return (

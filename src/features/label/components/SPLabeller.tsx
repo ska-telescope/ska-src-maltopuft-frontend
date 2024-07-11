@@ -8,18 +8,28 @@ import PostLabelButton from './PostLabelButton';
 import SinglePulsePaginationButton from './SinglePulsePaginationButton';
 
 function SPLabeller() {
-  const [labels, setLabels] = useState<Label[]>([]);
+  const pageSize = 100;
   const [pageNumber, setPageNumber] = useState<number>(0);
+  const [labelsAssigned, setLabelsAssigned] = useState<Label[]>([]);
   const [selection, setSelection] = useState<number[]>([]);
 
   return (
     <>
-      <PostLabelButton labels={labels} />
+      <PostLabelButton labelsAssigned={labelsAssigned} setLabelsAssigned={setLabelsAssigned} />
       {'  '}
-      <LabelButtonContainer labels={labels} setLabels={setLabels} selection={selection} />
-      <ChartContainer labels={labels} setSelection={setSelection} page={pageNumber} />
+      <LabelButtonContainer
+        labelsAssigned={labelsAssigned}
+        setLabelsAssigned={setLabelsAssigned}
+        selection={selection}
+      />
+      <ChartContainer
+        labelsAssigned={labelsAssigned}
+        setSelection={setSelection}
+        pageNumber={pageNumber}
+        pageSize={pageSize}
+      />
       <SinglePulsePaginationButton
-        pageSize={100}
+        pageSize={pageSize}
         pageNumber={pageNumber}
         setPageNumber={setPageNumber}
       />

@@ -4,8 +4,8 @@ import { Entity, Label } from '../types';
 import LabelButton from './LabelButton';
 
 interface LabelButtonsBarContainerProps {
-  labels: Label[];
-  setLabels: React.Dispatch<React.SetStateAction<Label[]>>;
+  labelsAssigned: Label[];
+  setLabelsAssigned: React.Dispatch<React.SetStateAction<Label[]>>;
   selection: number[];
 }
 
@@ -23,8 +23,8 @@ function LabelButtonContainer({ ...props }: LabelButtonsBarContainerProps) {
           key={ent.id}
           entityId={ent.id}
           type={ent.type}
-          labels={props.labels}
-          setLabels={props.setLabels}
+          labelsAssigned={props.labelsAssigned}
+          setLabelsAssigned={props.setLabelsAssigned}
           selection={props.selection}
         />
       ));

@@ -4,6 +4,7 @@ import { AxiosError } from 'axios';
 import { Label } from '../types';
 
 import { api } from '@/lib/axios';
+import { queryClient } from '@/lib/react-query';
 
 async function createLabels(labels: Label[]): Promise<Label[]> {
   try {
@@ -17,5 +18,8 @@ async function createLabels(labels: Label[]): Promise<Label[]> {
 export const useCreateLabels = () =>
   useMutation<Label[], AxiosError, Label[]>({
     mutationKey: ['create-labels'],
-    mutationFn: createLabels
+    mutationFn: createLabels,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['labels'] });
+    }
   });
