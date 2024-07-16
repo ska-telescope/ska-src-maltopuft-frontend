@@ -15,16 +15,18 @@ export type SinglePulse = Response<{
   candidate: Candidate;
 }>;
 
-export type Entity = Response<{
-  type: string;
+export interface Entity {
+  id: number;
   css_color: string;
-}>;
+  type: string;
+}
 
-export type Label = {
-  labeller_id: number | null;
+export interface Label {
+  id?: number;
+  labeller_id?: number;
   candidate_id: number;
   entity_id: number;
-};
+}
 
 export interface SubplotData {
   candidate_id: number;

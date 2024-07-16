@@ -1,4 +1,4 @@
-import { useQuery, useQueries } from '@tanstack/react-query';
+import { useQueries } from '@tanstack/react-query';
 
 import { SinglePulse, SubplotData } from '../types';
 
@@ -29,12 +29,6 @@ export async function getSubplot(sp: SinglePulse): Promise<SubplotData> {
     throw Error('Something went wrong.');
   }
 }
-
-export const useSubplot = (sp: SinglePulse) =>
-  useQuery<SubplotData>({
-    queryKey: ['subplot', sp.candidate_id],
-    queryFn: () => getSubplot(sp)
-  });
 
 export const useSubplots = (sps: SinglePulse[]) =>
   useQueries<SubplotData[]>({

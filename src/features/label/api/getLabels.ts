@@ -14,6 +14,7 @@ export async function getLabelsById(candidateIds: number[]): Promise<Label[]> {
   try {
     const response = await api.get<Label[]>(`/labels/?${queryString}`);
     return response.data.map((d) => ({
+      id: d.id,
       labeller_id: d.labeller_id,
       candidate_id: d.candidate_id,
       entity_id: d.entity_id
@@ -25,6 +26,6 @@ export async function getLabelsById(candidateIds: number[]): Promise<Label[]> {
 
 export const useLabels = (candidateIds: number[]) =>
   useQuery<Label[]>({
-    queryKey: ['labels', candidateIds],
+    queryKey: ['labels', 'get', candidateIds],
     queryFn: () => getLabelsById(candidateIds)
   });

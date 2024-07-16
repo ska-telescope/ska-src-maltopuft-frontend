@@ -60,7 +60,7 @@ function ChartContainer({ ...props }: ChartContainerProps) {
    */
   function entitiesWithLabels(entities: Entity[], labels: Label[], data: SinglePulse[]) {
     const labelCandidateIds = labels.map((label: Label) => label.candidate_id);
-    const unlabelledEntity = entities.filter((entity) => entity.type === 'UNLABELLED')[0];
+    const unlabelledEntity: Entity = { id: 0, css_color: '037ef2', type: 'UNLABELLED' };
 
     const labelledEntitiesData = entities.map((entity: Entity) => ({
       ...entity,
@@ -115,7 +115,7 @@ function ChartContainer({ ...props }: ChartContainerProps) {
     const entityAndLabel = entitiesWithLabels(entities, labels, data);
     return entityAndLabel.map((entity) => ({
       ...entity,
-      candidates: mapToSinglePulseArray.apply(data, [entity.labels, data])
+      candidates: mapToSinglePulseArray.apply(data, [entity.labels as Label[], data])
     }));
   }
 

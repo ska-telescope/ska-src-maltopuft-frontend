@@ -1,6 +1,7 @@
 import { useCreateLabels } from '../api/createLabels';
 import { useLabels } from '../api/getLabels';
 import { useSinglePulses } from '../api/getSinglePulses';
+import { useUpdateLabel } from '../api/updateLabels';
 import { Label, SinglePulse } from '../types';
 
 interface PostLabelButtonProps {
@@ -16,11 +17,21 @@ function LabelButton({ ...props }: PostLabelButtonProps) {
       : []
   );
   const createLabelsMutation = useCreateLabels();
+  const updateLabelMutation = useUpdateLabel();
+
+  function getFetchedLabelId(label: Label, labelsFetched: Label[]) {
+    return labelsFetched.filter((fetched: Label) => fetched.candidate_id === label.candidate_id)[0]
+      .id;
+  }
 
   function getRelabelled(labelsAssigned: Label[], labelsFetched: Label[]) {
-    return labelsAssigned.filter((assigned: Label) =>
+    const relabelled = labelsAssigned.filter((assigned: Label) =>
       labelsFetched.some((fetched: Label) => fetched.candidate_id === assigned.candidate_id)
     );
+    return relabelled.map((lab: Label) => ({
+      ...lab,
+      id: getFetchedLabelId(lab, labelsFetched)
+    }));
   }
 
   const handleClick = () => {
@@ -32,7 +43,8 @@ function LabelButton({ ...props }: PostLabelButtonProps) {
 
     let labelsToCreate: Label[] = [];
     if (labelsToUpdate.length > 0) {
-      // do update
+      labelsToUpdate.map((lab: Label) => updateLabelMutation.mutate(lab));
+
       labelsToCreate = props.labelsAssigned.filter((assigned: Label) =>
         labelsToUpdate.some((fetched: Label) => fetched.candidate_id !== assigned.candidate_id)
       );
