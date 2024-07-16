@@ -42,11 +42,13 @@ function ChartContainer({ ...props }: ChartContainerProps) {
    */
   function getPlotLabels(labelsAssigned: Label[], labelsFetched: Label[]): Label[] {
     if (labelsAssigned.length > 0 && labelsFetched.length > 0) {
-      labelsFetched = labelsFetched.filter((fetched: Label) =>
-        labelsAssigned.some((assigned: Label) => assigned?.candidate_id !== fetched.candidate_id)
+      const assignedIds = new Set(labelsAssigned.map((label) => label.candidate_id));
+      const filteredLabelsFetched = labelsFetched.filter(
+        (fetched: Label) => !assignedIds.has(fetched.candidate_id)
       );
+      return [...labelsAssigned, ...filteredLabelsFetched];
     }
-    return Array.from(new Set([...labelsAssigned, ...labelsFetched]));
+    return [...labelsAssigned, ...labelsFetched];
   }
 
   /**
@@ -61,7 +63,6 @@ function ChartContainer({ ...props }: ChartContainerProps) {
   function entitiesWithLabels(entities: Entity[], labels: Label[], data: SinglePulse[]) {
     const labelCandidateIds = labels.map((label: Label) => label.candidate_id);
     const unlabelledEntity: Entity = { id: 0, css_color: '037ef2', type: 'UNLABELLED' };
-
     const labelledEntitiesData = entities.map((entity: Entity) => ({
       ...entity,
       labels: labels.filter((label: Label) => label.entity_id === entity.id)
