@@ -7,10 +7,12 @@ import { Label, SinglePulse } from '../types';
 interface PostLabelButtonProps {
   labelsAssigned: Label[];
   setLabelsAssigned: React.Dispatch<React.SetStateAction<Label[]>>;
+  pageNumber: number;
+  pageSize: number;
 }
 
 function LabelButton({ ...props }: PostLabelButtonProps) {
-  const singlePulseQuery = useSinglePulses(0, 100);
+  const singlePulseQuery = useSinglePulses(props.pageNumber, props.pageSize);
   const labelsQuery = useLabels(
     singlePulseQuery.isSuccess
       ? singlePulseQuery.data.map((sp: SinglePulse) => sp.candidate_id)
@@ -19,47 +21,54 @@ function LabelButton({ ...props }: PostLabelButtonProps) {
   const createLabelsMutation = useCreateLabels();
   const updateLabelMutation = useUpdateLabel();
 
-  function getFetchedLabelId(label: Label, labelsFetched: Label[]) {
-    return labelsFetched.filter((fetched: Label) => fetched.candidate_id === label.candidate_id)[0]
-      .id;
-  }
-
-  function getRelabelled(labelsAssigned: Label[], labelsFetched: Label[]) {
-    const relabelled = labelsAssigned.filter((assigned: Label) =>
-      labelsFetched.some((fetched: Label) => fetched.candidate_id === assigned.candidate_id)
+  function getRelabelled(labelsAssigned: Label[], labelsFetched: Label[]): Label[] {
+    const labelsFetchedMap = new Map(
+      labelsFetched.map((label: Label) => [label.candidate_id, label.id])
     );
-    return relabelled.map((lab: Label) => ({
-      ...lab,
-      id: getFetchedLabelId(lab, labelsFetched)
-    }));
+
+    return labelsAssigned
+      .filter((assigned: Label) => labelsFetchedMap.has(assigned.candidate_id))
+      .map((assigned: Label) => ({
+        ...assigned,
+        id: labelsFetchedMap.get(assigned.candidate_id)
+      }));
   }
 
-  const handleClick = () => {
+  function handleClick(): void {
     if (props.labelsAssigned.length === 0) {
       return;
     }
 
+    // First, handle label updates
     const labelsToUpdate = getRelabelled(props.labelsAssigned, labelsQuery?.data ?? []);
+    const labelsToCreate = props.labelsAssigned.filter(
+      (assigned: Label) =>
+        !labelsToUpdate.some((updated: Label) => updated.candidate_id === assigned.candidate_id)
+    );
 
-    let labelsToCreate: Label[] = [];
     if (labelsToUpdate.length > 0) {
-      labelsToUpdate.map((lab: Label) => updateLabelMutation.mutate(lab));
-
-      labelsToCreate = props.labelsAssigned.filter((assigned: Label) =>
-        labelsToUpdate.some((fetched: Label) => fetched.candidate_id !== assigned.candidate_id)
+      labelsToUpdate.forEach((lab: Label) =>
+        updateLabelMutation.mutate(lab, {
+          // Remove updated label from state using functional form of
+          // setState to ensure that previous state dependency is up-to-date
+          onSuccess: () => {
+            props.setLabelsAssigned((prevAssigned) =>
+              prevAssigned.filter((assigned: Label) => lab.candidate_id !== assigned.candidate_id)
+            );
+          }
+        })
       );
-    } else {
-      labelsToCreate = props.labelsAssigned;
     }
 
     if (labelsToCreate.length > 0) {
       createLabelsMutation.mutate(labelsToCreate, {
         onSuccess: () => {
+          // Remove created labels from state
           props.setLabelsAssigned([]);
         }
       });
     }
-  };
+  }
 
   return (
     <button

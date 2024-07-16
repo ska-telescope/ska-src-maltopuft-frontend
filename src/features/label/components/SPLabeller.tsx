@@ -15,7 +15,12 @@ function SPLabeller() {
 
   return (
     <>
-      <PostLabelButton labelsAssigned={labelsAssigned} setLabelsAssigned={setLabelsAssigned} />
+      <PostLabelButton
+        labelsAssigned={labelsAssigned}
+        setLabelsAssigned={setLabelsAssigned}
+        pageNumber={pageNumber}
+        pageSize={pageSize}
+      />
       {'  '}
       <LabelButtonContainer
         labelsAssigned={labelsAssigned}

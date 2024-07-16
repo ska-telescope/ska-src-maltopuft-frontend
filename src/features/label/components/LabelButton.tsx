@@ -20,20 +20,19 @@ function LabelButton({ ...props }: LabelButtonProps) {
       return;
     }
 
-    const newLabels: Label[] = [
-      // Remove existing labels if selection includes labelled candidates
-      ...props.labelsAssigned.filter(
-        (label: Label) => !props.selection.includes(label.candidate_id)
-      ),
-      ...props.selection.map((selectedId: number) => ({
-        candidate_id: selectedId,
-        entity_id: props.entityId,
-        // Hard code user id for now
-        labeller_id: 1
-      }))
-    ];
+    // Get existing labels not included in the current selection
+    const unselectedLabels = props.labelsAssigned.filter(
+      (label: Label) => !props.selection.includes(label.candidate_id)
+    );
 
-    props.setLabelsAssigned(newLabels);
+    const newLabels: Label[] = props.selection.map((selectedId: number) => ({
+      candidate_id: selectedId,
+      entity_id: props.entityId,
+      labeller_id: 1 // Hard code user id for now
+    }));
+
+    // Update the state with combined labels
+    props.setLabelsAssigned([...unselectedLabels, ...newLabels]);
   }
 
   return (
