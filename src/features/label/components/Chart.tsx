@@ -90,7 +90,9 @@ function Chart({ ...props }: ChartProps) {
    */
   function handleHover(hoverDatum: Readonly<Plotly.PlotHoverEvent>): void {
     props.setHoverPoint(hoverDatum);
-    if ('bbox' in hoverDatum.points[0]) {
+
+    const point = hoverDatum.points[0];
+    if (point && 'bbox' in hoverDatum.points[0]) {
       let subplotTopLeft = {
         /* @ts-ignore: PlotDatum has bbox property */
         x: hoverDatum.points[0].bbox.x0 as number,

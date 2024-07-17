@@ -61,28 +61,29 @@ function ChartContainer({ ...props }: ChartContainerProps) {
    * @returns An array of objects of type { ...Entity, labels: Label[]}
    */
   function entitiesWithLabels(entities: Entity[], labels: Label[], data: SinglePulse[]) {
-    const labelCandidateIds = labels.map((label: Label) => label.candidate_id);
+    const labelCandidateIds = new Set(labels.map((label: Label) => label.candidate_id));
+
     const unlabelledEntity: Entity = { id: 0, css_color: '037ef2', type: 'UNLABELLED' };
+    const unlabelledEntityData = {
+      ...unlabelledEntity,
+      labels: data
+        .filter((sp: SinglePulse) => !labelCandidateIds.has(sp.candidate_id))
+        .map((sp: SinglePulse) => ({
+          candidate_id: sp.candidate_id,
+          entity_id: unlabelledEntity.id
+        }))
+    };
+
     const labelledEntitiesData = entities.map((entity: Entity) => ({
       ...entity,
       labels: labels.filter((label: Label) => label.entity_id === entity.id)
     }));
 
-    const unlabelledEntityData = {
-      ...unlabelledEntity,
-      labels: data
-        .filter((sp: SinglePulse) => !labelCandidateIds.includes(sp.candidate_id))
-        .map((sp: SinglePulse) => ({
-          candidate_id: sp.candidate_id,
-          entity_id: unlabelledEntity.id,
-          labeller_id: null
-        }))
-    };
     return [unlabelledEntityData, ...labelledEntitiesData];
   }
 
   /**
-   * Transforms an array of arrays of SinglePulse objects to an array of
+   * Transforms an array of SinglePulse objects to an array of
    * SinglePulse objects with the same ordering as the array of Label
    * objects
    * @param labels An array of Label objects
@@ -93,8 +94,8 @@ function ChartContainer({ ...props }: ChartContainerProps) {
     const dataMap = new Map<number, SinglePulse>();
     data.forEach((sp: SinglePulse) => dataMap.set(sp.candidate_id, sp));
     return labels
-      .map((label) => dataMap?.get(label.candidate_id) ?? null)
-      .filter((value): value is SinglePulse => value !== null);
+      .map((label) => dataMap.get(label.candidate_id))
+      .filter((value): value is SinglePulse => value !== undefined);
   }
 
   /**
@@ -193,8 +194,7 @@ function ChartContainer({ ...props }: ChartContainerProps) {
         hoverCandidateId
       ]);
       if (hoverCandidateQueryData !== undefined) {
-        const hoverCandidateImageData = hoverCandidateQueryData.imageData;
-        return hoverCandidateImageData;
+        return hoverCandidateQueryData.imageData;
       }
     }
     return undefined;
