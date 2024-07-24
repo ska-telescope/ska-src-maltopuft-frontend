@@ -5,11 +5,12 @@ interface SinglePulsePaginationButtonProps {
   pageNumber: number;
   setPageNumber: React.Dispatch<React.SetStateAction<number>>;
   pageSize: number;
+  latest: boolean;
 }
 
 function SinglePulsePaginationButton({ ...props }: SinglePulsePaginationButtonProps) {
-  const singlePulseQuery = useSinglePulses(props.pageNumber, props.pageSize);
-  const singlePulseCount = useSinglePulseCount();
+  const singlePulseQuery = useSinglePulses(props.pageNumber, props.pageSize, props.latest);
+  const singlePulseCount = useSinglePulseCount(props.latest);
 
   function handleNextClick(): void {
     if (!singlePulseQuery.isPlaceholderData) {

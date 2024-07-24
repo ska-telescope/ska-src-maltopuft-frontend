@@ -1,3 +1,4 @@
+import { UseQueryResult } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { useEntities } from '../api/getEntities';
@@ -5,7 +6,7 @@ import { useLabels } from '../api/getLabels';
 import { useSinglePulses } from '../api/getSinglePulses';
 import { useSubplots } from '../api/getSubplot';
 import { basePlotData } from '../config';
-import { Entity, Label, SinglePulse, SubplotData } from '../types';
+import { Entity, Label, Observation, SinglePulse, SubplotData } from '../types';
 
 import Chart from './Chart';
 
@@ -16,14 +17,24 @@ interface ChartContainerProps {
   setSelection: React.Dispatch<React.SetStateAction<number[]>>;
   pageNumber: number;
   pageSize: number;
+  latest: boolean;
+  observationsQuery: UseQueryResult<Observation[]>;
 }
 
 function ChartContainer({ ...props }: ChartContainerProps) {
   const [hoverPoint, setHoverPoint] = useState<Plotly.PlotHoverEvent | null>(null);
 
-  const entitiesQuery = useEntities();
-  const singlePulseQuery = useSinglePulses(props.pageNumber, props.pageSize);
+  const observationIds = props.observationsQuery.isSuccess
+    ? props.observationsQuery.data.map((obs: Observation) => obs.id)
+    : [];
 
+  const entitiesQuery = useEntities();
+  const singlePulseQuery = useSinglePulses(
+    props.pageNumber,
+    props.pageSize,
+    props.latest,
+    observationIds
+  );
   const labelsQuery = useLabels(
     singlePulseQuery.isSuccess
       ? singlePulseQuery.data.map((sp: SinglePulse) => sp.candidate_id)

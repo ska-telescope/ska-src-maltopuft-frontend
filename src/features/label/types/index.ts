@@ -8,13 +8,6 @@ export type Candidate = Response<{
   dec: string;
 }>;
 
-export type SinglePulse = Response<{
-  candidate_id: number;
-  plot_path: string;
-  observed_at: Date;
-  candidate: Candidate;
-}>;
-
 export interface Entity {
   id: number;
   css_color: string;
@@ -27,6 +20,18 @@ export interface Label {
   candidate_id: number;
   entity_id: number;
 }
+
+export type Observation = Response<{
+  t_min: Date;
+  t_max: Date;
+}>;
+
+export type SinglePulse = Response<{
+  candidate_id: number;
+  plot_path: string;
+  observed_at: Date;
+  candidate: Candidate;
+}>;
 
 export interface SubplotData {
   candidate_id: number;
