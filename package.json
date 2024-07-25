@@ -24,17 +24,22 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.45.1",
     "axios": "^1.6.8",
+    "plotly.js-basic-dist": "^2.33.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-query": "^3.39.3",
+    "react-plotly.js": "^2.6.0",
     "react-router-dom": "^6.23.0"
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.12.30",
     "@types/mocha": "^10.0.6",
+    "@types/plotly.js": "^2.29.5",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
+    "@types/react-plotly.js": "^2.6.3",
+    "@types/react-query": "^1.2.9",
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
     "@vitejs/plugin-react": "^4.2.1",
