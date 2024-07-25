@@ -11,15 +11,15 @@ export async function getSinglePulses(
   observationIds: number[]
 ): Promise<SinglePulse[]> {
   const params = {
-    latest,
-    skip: pageNumber * pageSize,
-    limit: pageSize
+    latest: String(latest),
+    skip: String(pageNumber * pageSize),
+    limit: String(pageSize)
   };
-  const searchParams = new URLSearchParams(JSON.stringify(params));
+  const searchParams = new URLSearchParams(params);
   observationIds.forEach((id: number) => searchParams.append('observation_id', `${id}`));
 
   try {
-    const response = await api.get<SinglePulse[]>(`/candle/sp?${searchParams.toString()}`);
+    const response = await api.get<SinglePulse[]>(`/candle/sp/?${searchParams.toString()}`);
     return response.data;
   } catch (error) {
     throw Error('Something went wrong.');

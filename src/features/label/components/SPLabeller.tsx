@@ -44,7 +44,7 @@ function SPLabeller() {
     : [];
 
   const singlePulseQuery = useSinglePulses(pageNumber, pageSize, fetchLatest, observationIds);
-  const singlePulseCount = useSinglePulseCount(fetchLatest);
+  const singlePulseCount = useSinglePulseCount(observationIds, fetchLatest);
   const singlePulseCandidateIds = singlePulseQuery.isSuccess
     ? singlePulseQuery.data.map((sp: SinglePulse) => sp.candidate_id)
     : [];
