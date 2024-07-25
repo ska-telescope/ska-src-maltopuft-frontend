@@ -2,8 +2,6 @@ import { UseQueryResult } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { useEntities } from '../api/getEntities';
-import { useLabels } from '../api/getLabels';
-import { useSinglePulses } from '../api/getSinglePulses';
 import { useSubplots } from '../api/getSubplot';
 import { basePlotData } from '../config';
 import { Entity, Label, Observation, SinglePulse, SubplotData } from '../types';
@@ -15,33 +13,19 @@ import { queryClient } from '@/lib/react-query';
 interface ChartContainerProps {
   labelsAssigned: Label[];
   setSelection: React.Dispatch<React.SetStateAction<number[]>>;
-  pageNumber: number;
-  pageSize: number;
-  latest: boolean;
+  labelsQuery: UseQueryResult<Label[]>;
   observationsQuery: UseQueryResult<Observation[]>;
+  singlePulseQuery: UseQueryResult<SinglePulse[]>;
 }
 
 function ChartContainer({ ...props }: ChartContainerProps) {
   const [hoverPoint, setHoverPoint] = useState<Plotly.PlotHoverEvent | null>(null);
 
-  const observationIds = props.observationsQuery.isSuccess
-    ? props.observationsQuery.data.map((obs: Observation) => obs.id)
-    : [];
-
   const entitiesQuery = useEntities();
-  const singlePulseQuery = useSinglePulses(
-    props.pageNumber,
-    props.pageSize,
-    props.latest,
-    observationIds
-  );
-  const labelsQuery = useLabels(
-    singlePulseQuery.isSuccess
-      ? singlePulseQuery.data.map((sp: SinglePulse) => sp.candidate_id)
-      : []
-  );
-
-  useSubplots(singlePulseQuery.isSuccess ? singlePulseQuery.data.map((sp: SinglePulse) => sp) : []);
+  const fetchedSinglePulses = props.singlePulseQuery.isSuccess
+    ? props.singlePulseQuery.data.map((sp: SinglePulse) => sp)
+    : [];
+  useSubplots(fetchedSinglePulses);
 
   /**
    * Merges the assigned and fetched labels to generate plot data.
@@ -211,7 +195,7 @@ function ChartContainer({ ...props }: ChartContainerProps) {
     return undefined;
   }
 
-  if (!(entitiesQuery.isSuccess && singlePulseQuery.isSuccess)) {
+  if (!(entitiesQuery.isSuccess && props.singlePulseQuery.isSuccess)) {
     return (
       <Chart
         data={[]}
@@ -225,9 +209,10 @@ function ChartContainer({ ...props }: ChartContainerProps) {
   const data = getPlotData(
     entitiesQuery.data,
     props.labelsAssigned,
-    labelsQuery?.data ?? [],
-    singlePulseQuery.data
+    props.labelsQuery?.data ?? [],
+    props.singlePulseQuery.data
   );
+
   return (
     <Chart
       data={data}

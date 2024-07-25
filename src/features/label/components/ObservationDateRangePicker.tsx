@@ -16,13 +16,21 @@ function ObservationDateRangePicker({ ...props }: ObservationDateRangePickerProp
         label="Observation start time"
         timezone="UTC"
         value={props.startTime}
-        onAccept={(newStartTime) => props.setStartTime(newStartTime as dayjs.Dayjs)}
+        onAccept={(newStartTime) => {
+          if (newStartTime) {
+            props.setStartTime(newStartTime);
+          }
+        }}
       />
       <DateTimePicker
         label="Observation end time"
         timezone="UTC"
         value={props.endTime}
-        onAccept={(newEndTime) => props.setEndTime(newEndTime as dayjs.Dayjs)}
+        onAccept={(newEndTime) => {
+          if (newEndTime) {
+            props.setEndTime(newEndTime);
+          }
+        }}
       />
     </div>
   );

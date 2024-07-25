@@ -1,23 +1,16 @@
+import { UseQueryResult } from '@tanstack/react-query';
+
 import { useCreateLabels } from '../api/createLabels';
-import { useLabels } from '../api/getLabels';
-import { useSinglePulses } from '../api/getSinglePulses';
 import { useUpdateLabel } from '../api/updateLabels';
-import { Label, SinglePulse } from '../types';
+import { Label } from '../types';
 
 interface PostLabelButtonProps {
   labelsAssigned: Label[];
   setLabelsAssigned: React.Dispatch<React.SetStateAction<Label[]>>;
-  pageNumber: number;
-  pageSize: number;
+  labelsQuery: UseQueryResult<Label[]>;
 }
 
-function LabelButton({ ...props }: PostLabelButtonProps) {
-  const singlePulseQuery = useSinglePulses(props.pageNumber, props.pageSize);
-  const labelsQuery = useLabels(
-    singlePulseQuery.isSuccess
-      ? singlePulseQuery.data.map((sp: SinglePulse) => sp.candidate_id)
-      : []
-  );
+function PostLabelButton({ ...props }: PostLabelButtonProps) {
   const createLabelsMutation = useCreateLabels();
   const updateLabelMutation = useUpdateLabel();
 
@@ -40,7 +33,7 @@ function LabelButton({ ...props }: PostLabelButtonProps) {
     }
 
     // First, handle label updates
-    const labelsToUpdate = getRelabelled(props.labelsAssigned, labelsQuery?.data ?? []);
+    const labelsToUpdate = getRelabelled(props.labelsAssigned, props.labelsQuery?.data ?? []);
     const labelsToCreate = props.labelsAssigned.filter(
       (assigned: Label) =>
         !labelsToUpdate.some((updated: Label) => updated.candidate_id === assigned.candidate_id)
@@ -76,7 +69,7 @@ function LabelButton({ ...props }: PostLabelButtonProps) {
       onClick={handleClick}
       disabled={
         createLabelsMutation.isPending ||
-        !labelsQuery.isSuccess ||
+        !props.labelsQuery.isSuccess ||
         props.labelsAssigned.length === 0
       }
     >
@@ -85,4 +78,4 @@ function LabelButton({ ...props }: PostLabelButtonProps) {
   );
 }
 
-export default LabelButton;
+export default PostLabelButton;

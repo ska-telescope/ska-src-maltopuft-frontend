@@ -1,19 +1,18 @@
-import { useSinglePulseCount } from '../api/countSinglePulses';
-import { useSinglePulses } from '../api/getSinglePulses';
+import { UseQueryResult } from '@tanstack/react-query';
+
+import { SinglePulse } from '../types';
 
 interface SinglePulsePaginationButtonProps {
   pageNumber: number;
   setPageNumber: React.Dispatch<React.SetStateAction<number>>;
   pageSize: number;
-  latest: boolean;
+  singlePulseCount: UseQueryResult<number>;
+  singlePulseQuery: UseQueryResult<SinglePulse[]>;
 }
 
 function SinglePulsePaginationButton({ ...props }: SinglePulsePaginationButtonProps) {
-  const singlePulseQuery = useSinglePulses(props.pageNumber, props.pageSize, props.latest);
-  const singlePulseCount = useSinglePulseCount(props.latest);
-
   function handleNextClick(): void {
-    if (!singlePulseQuery.isPlaceholderData) {
+    if (!props.singlePulseQuery.isPlaceholderData) {
       props.setPageNumber((old: number) => old + 1);
     }
   }
@@ -26,7 +25,9 @@ function SinglePulsePaginationButton({ ...props }: SinglePulsePaginationButtonPr
     <div>
       <span>
         Viewing page {props.pageNumber + 1} of{' '}
-        {singlePulseCount.isSuccess ? Math.ceil(singlePulseCount.data / props.pageSize) : '...'}
+        {props.singlePulseCount.isSuccess
+          ? Math.ceil(props.singlePulseCount.data / props.pageSize)
+          : '...'}
       </span>
       {'  '}
       <button type="button" onClick={handlePrevClick} disabled={props.pageNumber === 0}>
@@ -37,10 +38,10 @@ function SinglePulsePaginationButton({ ...props }: SinglePulsePaginationButtonPr
         type="button"
         onClick={handleNextClick}
         disabled={
-          singlePulseQuery.isPlaceholderData ||
-          !singlePulseCount.isSuccess ||
-          (singlePulseCount.isSuccess &&
-            (props.pageNumber + 1) * props.pageSize >= singlePulseCount.data)
+          props.singlePulseQuery.isPlaceholderData ||
+          !props.singlePulseCount.isSuccess ||
+          (props.singlePulseCount.isSuccess &&
+            (props.pageNumber + 1) * props.pageSize >= props.singlePulseCount.data)
         }
       >
         Next Page
