@@ -25,3 +25,6 @@ dist
 cypress.config.ts
 **/*.cy.tsx
 cypress/
+
+# Vite config
+vite.config.ts
