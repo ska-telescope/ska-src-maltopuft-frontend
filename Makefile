@@ -34,4 +34,6 @@ pre-commit:
 	@rm -rf .nyc_output/ build/
 	@npm run prettier:fix
 	@npm run lint:fix
+	@make js-format
+	@npm run build
 	@make js-test

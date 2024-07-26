@@ -30,7 +30,24 @@ export default defineConfig({
 
   // Add support for test code coverage
   build: {
-    sourcemap: true
+    sourcemap: true,
+    outDir: 'build',
+    rollupOptions: {
+      output: {
+        // See https://rollupjs.org/configuration-options/#output-manualchunks
+        manualChunks: (id) => {
+          if (id.includes('node_modules'))
+            return id.toString().split('node_modules/')[1].split('/')[0].toString();
+        }
+      },
+      // See https://github.com/vitejs/vite/issues/15012#issuecomment-1815854072
+      onLog(level, log, handler) {
+        if (log.cause && log.cause.message === `Can't resolve original location of error.`) {
+          return;
+        }
+        handler(level, log);
+      }
+    }
   },
 
   preview: {
