@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { useSinglePulseCount } from '../api/countSinglePulses';
 import { useLabels } from '../api/getLabels';
+import { useObservationRegionKnownPulsars } from '../api/getObservationRegionKnownPulsars';
 import { useObservations } from '../api/getObservations';
 import { useSinglePulses } from '../api/getSinglePulses';
 import { Label, Observation, SinglePulse } from '../types';
@@ -43,6 +44,12 @@ function SPLabeller() {
     ? observationsQuery.data.map((obs: Observation) => obs.id)
     : [];
 
+  const radius = 1;
+  const observationRegionKnownPulsarsQuery = useObservationRegionKnownPulsars(
+    observationIds,
+    radius
+  );
+
   const singlePulseQuery = useSinglePulses(pageNumber, pageSize, fetchLatest, observationIds);
   const singlePulseCount = useSinglePulseCount(observationIds, fetchLatest);
   const singlePulseCandidateIds = singlePulseQuery.isSuccess
@@ -81,6 +88,7 @@ function SPLabeller() {
         labelsQuery={labelsQuery}
         observationsQuery={observationsQuery}
         singlePulseQuery={singlePulseQuery}
+        observationRegionKnownPulsarsQuery={observationRegionKnownPulsarsQuery}
       />
       <SinglePulsePaginationButton
         pageNumber={pageNumber}

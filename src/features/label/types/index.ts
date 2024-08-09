@@ -1,5 +1,12 @@
 import { Response } from '@/types/api';
 
+export type AxisValues = {
+  xMin: Date | null;
+  xMax: Date | null;
+  yMin: number | null;
+  yMax: number | null;
+};
+
 export type Candidate = Response<{
   dm: number;
   snr: number;
@@ -14,6 +21,15 @@ export interface Entity {
   type: string;
 }
 
+export type KnownPulsar = Response<{
+  name: string;
+  dm: number;
+  width: number;
+  ra: string;
+  dec: string;
+  period: number;
+}>;
+
 export interface Label {
   id?: number;
   labeller_id?: number;
@@ -24,6 +40,8 @@ export interface Label {
 export type Observation = Response<{
   t_min: Date;
   t_max: Date;
+  s_ra: string;
+  s_dec: string;
 }>;
 
 export type SinglePulse = Response<{
@@ -32,6 +50,11 @@ export type SinglePulse = Response<{
   observed_at: Date;
   candidate: Candidate;
 }>;
+
+export interface ObservationSources {
+  observation: Response<Observation>;
+  sources: Response<KnownPulsar[]>;
+}
 
 export interface SubplotData {
   candidate_id: number;
