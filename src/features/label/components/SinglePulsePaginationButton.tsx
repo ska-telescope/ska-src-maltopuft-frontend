@@ -1,6 +1,11 @@
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { IconButton } from '@mui/material';
 import { UseQueryResult } from '@tanstack/react-query';
 
 import { SinglePulse } from '../types';
+
+import '../styles/SinglePulsePaginationButton.css';
 
 interface SinglePulsePaginationButtonProps {
   pageNumber: number;
@@ -22,30 +27,48 @@ function SinglePulsePaginationButton({ ...props }: SinglePulsePaginationButtonPr
   }
 
   return (
-    <div>
+    <div className="sp-pagination-button-container">
+      <div className="sp-pagination-button-nav">
+        <IconButton
+          type="button"
+          onClick={handlePrevClick}
+          disabled={props.pageNumber === 0}
+          sx={{
+            '&.Mui-disabled': {
+              '& .MuiSvgIcon-root': {
+                color: '#a0a0a0'
+              }
+            }
+          }}
+        >
+          <NavigateBeforeIcon sx={{ color: '#cccccc' }} />
+        </IconButton>
+        <IconButton
+          type="button"
+          onClick={handleNextClick}
+          disabled={
+            props.singlePulseQuery.isPlaceholderData ||
+            !props.singlePulseCount.isSuccess ||
+            (props.singlePulseCount.isSuccess &&
+              (props.pageNumber + 1) * props.pageSize >= props.singlePulseCount.data)
+          }
+          sx={{
+            '&.Mui-disabled': {
+              '& .MuiSvgIcon-root': {
+                color: '#a0a0a0'
+              }
+            }
+          }}
+        >
+          <NavigateNextIcon sx={{ color: '#cccccc' }} />
+        </IconButton>
+      </div>
       <span>
-        Viewing page {props.pageNumber + 1} of{' '}
+        Page {props.pageNumber + 1} of{' '}
         {props.singlePulseCount.isSuccess
           ? Math.ceil(props.singlePulseCount.data / props.pageSize)
           : '...'}
       </span>
-      {'  '}
-      <button type="button" onClick={handlePrevClick} disabled={props.pageNumber === 0}>
-        Previous Page
-      </button>
-      {'  '}
-      <button
-        type="button"
-        onClick={handleNextClick}
-        disabled={
-          props.singlePulseQuery.isPlaceholderData ||
-          !props.singlePulseCount.isSuccess ||
-          (props.singlePulseCount.isSuccess &&
-            (props.pageNumber + 1) * props.pageSize >= props.singlePulseCount.data)
-        }
-      >
-        Next Page
-      </button>
     </div>
   );
 }
