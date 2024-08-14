@@ -1,0 +1,6 @@
+.date-range-picker-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-left: 3px;
+}
