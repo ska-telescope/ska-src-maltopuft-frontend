@@ -1,0 +1,14 @@
+.sp-pagination-button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-self: last baseline;
+    margin-top: -5%;
+    margin-right: 18%;
+    z-index: 1;
+}
+
+sp-pagination-button-nav {
+    display: flex;
+    flex-direction: row;
+}
