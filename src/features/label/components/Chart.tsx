@@ -140,7 +140,8 @@ function Chart({ ...props }: ChartProps) {
             backgroundColor: 'rgba(255, 255, 255, 0.8)',
             padding: '10px',
             borderRadius: '5px',
-            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)'
+            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+            zIndex: 2
           }}
         >
           <img
