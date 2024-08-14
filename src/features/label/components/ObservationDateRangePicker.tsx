@@ -9,7 +9,46 @@ interface ObservationDateRangePickerProps {
   setEndTime: React.Dispatch<React.SetStateAction<dayjs.Dayjs>>;
 }
 
+
+
 function ObservationDateRangePicker({ ...props }: ObservationDateRangePickerProps) {
+  const inlineStyling = {
+    'width': 220,
+    '& .MuiInputBase-root': {
+      color: 'rgba(255, 255, 255, 0.87)'
+    },
+    '& .MuiOutlinedInput-root': {
+      '& .MuiOutlinedInput-notchedOutline': {
+        borderColor: 'rgba(255, 255, 255, 0.87)'
+      },
+      '&:hover .MuiOutlinedInput-notchedOutline': {
+        borderColor: '#cccccc',
+        borderWidth: 2
+      },
+      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+        borderColor: '#646cff'
+      },
+      '& .MuiSvgIcon-root': {
+        color: 'rgba(255, 255, 255, 0.87)'
+      },
+      '&:hover .MuiSvgIcon-root': {
+        color: '#cccccc'
+      },
+      '&.Mui-focused .MuiSvgIcon-root': {
+        color: '#646cff'
+      }
+    },
+    '& .MuiInputLabel-root': {
+      color: 'rgba(255, 255, 255, 0.87)',
+      '&:hover': {
+        color: '#cccccc'
+      },
+      '&.Mui-focused': {
+        color: '#646cff'
+      }
+    }
+  }
+
   return (
     <div>
       <DateTimePicker
@@ -21,6 +60,7 @@ function ObservationDateRangePicker({ ...props }: ObservationDateRangePickerProp
             props.setStartTime(newStartTime);
           }
         }}
+        sx={inlineStyling}
       />
       <DateTimePicker
         label="Observation end time"
@@ -31,6 +71,7 @@ function ObservationDateRangePicker({ ...props }: ObservationDateRangePickerProp
             props.setEndTime(newEndTime);
           }
         }}
+        sx={inlineStyling}
       />
     </div>
   );
