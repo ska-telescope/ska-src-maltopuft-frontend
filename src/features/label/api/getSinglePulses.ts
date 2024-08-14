@@ -11,12 +11,17 @@ export async function getSinglePulses(
   observationIds: number[]
 ): Promise<SinglePulse[]> {
   const params = {
-    latest: String(latest),
     skip: String(pageNumber * pageSize),
     limit: String(pageSize)
   };
   const searchParams = new URLSearchParams(params);
-  observationIds.forEach((id: number) => searchParams.append('observation_id', `${id}`));
+
+  // If fetching latest observation, ignore any observationIds in state
+  if (latest) {
+    searchParams.append('latest', String(latest));
+  } else {
+    observationIds.forEach((id: number) => searchParams.append('observation_id', String(id)));
+  }
 
   try {
     const response = await api.get<SinglePulse[]>(`/candle/sp/?${searchParams.toString()}`);
