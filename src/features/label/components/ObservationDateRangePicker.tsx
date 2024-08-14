@@ -7,13 +7,12 @@ interface ObservationDateRangePickerProps {
   setStartTime: React.Dispatch<React.SetStateAction<dayjs.Dayjs>>;
   endTime: dayjs.Dayjs;
   setEndTime: React.Dispatch<React.SetStateAction<dayjs.Dayjs>>;
+  fetchLatest: boolean;
 }
-
-
 
 function ObservationDateRangePicker({ ...props }: ObservationDateRangePickerProps) {
   const inlineStyling = {
-    'width': 220,
+    width: 220,
     '& .MuiInputBase-root': {
       color: 'rgba(255, 255, 255, 0.87)'
     },
@@ -47,7 +46,7 @@ function ObservationDateRangePicker({ ...props }: ObservationDateRangePickerProp
         color: '#646cff'
       }
     }
-  }
+  };
 
   return (
     <div>
@@ -61,6 +60,7 @@ function ObservationDateRangePicker({ ...props }: ObservationDateRangePickerProp
           }
         }}
         sx={inlineStyling}
+        disabled={props.fetchLatest}
       />
       <DateTimePicker
         label="Observation end time"
@@ -72,6 +72,7 @@ function ObservationDateRangePicker({ ...props }: ObservationDateRangePickerProp
           }
         }}
         sx={inlineStyling}
+        disabled={props.fetchLatest}
       />
     </div>
   );
