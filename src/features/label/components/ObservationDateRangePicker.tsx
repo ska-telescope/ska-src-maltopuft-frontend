@@ -2,6 +2,8 @@ import { DateTimePicker } from '@mui/x-date-pickers';
 
 import dayjs from '@/lib/dayjs';
 
+import '../styles/ObservationDataRangePicker.css';
+
 interface ObservationDateRangePickerProps {
   startTime: dayjs.Dayjs;
   setStartTime: React.Dispatch<React.SetStateAction<dayjs.Dayjs>>;
@@ -49,7 +51,7 @@ function ObservationDateRangePicker({ ...props }: ObservationDateRangePickerProp
   };
 
   return (
-    <div>
+    <div className="date-range-picker-container">
       <DateTimePicker
         label="Observation start time"
         timezone="UTC"
