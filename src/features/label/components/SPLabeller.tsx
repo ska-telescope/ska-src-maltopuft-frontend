@@ -16,6 +16,8 @@ import SinglePulsePaginationButton from './SinglePulsePaginationButton';
 import ToggleButton from '@/components/ToggleButton';
 import dayjs from '@/lib/dayjs';
 
+import '../styles/SPLabeller.css';
+
 /**
  * SPLabeller Component
  *
@@ -59,45 +61,51 @@ function SPLabeller() {
   const labelsQuery = useLabels(singlePulseCandidateIds);
 
   return (
-    <>
-      <ToggleButton
-        isToggled={fetchLatest}
-        setIsToggled={setFetchLatest}
-        buttonLabel="Fetch latest observation data"
-      />
-      <ObservationDateRangePicker
-        startTime={startTime}
-        setStartTime={setStartTime}
-        endTime={endTime}
-        setEndTime={setEndTime}
-      />
-      <PostLabelButton
-        labelsAssigned={labelsAssigned}
-        setLabelsAssigned={setLabelsAssigned}
-        labelsQuery={labelsQuery}
-      />
-      {'  '}
-      <LabelButtonContainer
-        labelsAssigned={labelsAssigned}
-        setLabelsAssigned={setLabelsAssigned}
-        selection={selection}
-      />
-      <ChartContainer
-        labelsAssigned={labelsAssigned}
-        setSelection={setSelection}
-        labelsQuery={labelsQuery}
-        observationsQuery={observationsQuery}
-        singlePulseQuery={singlePulseQuery}
-        observationRegionKnownPulsarsQuery={observationRegionKnownPulsarsQuery}
-      />
-      <SinglePulsePaginationButton
-        pageNumber={pageNumber}
-        setPageNumber={setPageNumber}
-        pageSize={pageSize}
-        singlePulseQuery={singlePulseQuery}
-        singlePulseCount={singlePulseCount}
-      />
-    </>
+    <div className="sp-labeller-container">
+      <div className="sp-options-container">
+        <ToggleButton
+          isToggled={fetchLatest}
+          setIsToggled={setFetchLatest}
+          buttonLabel="Fetch latest observation data"
+        />
+        <ObservationDateRangePicker
+          startTime={startTime}
+          setStartTime={setStartTime}
+          endTime={endTime}
+          setEndTime={setEndTime}
+          fetchLatest={fetchLatest}
+        />
+      </div>
+      <div className="sp-chart-container">
+        <div className="sp-label-container">
+          <PostLabelButton
+            labelsAssigned={labelsAssigned}
+            setLabelsAssigned={setLabelsAssigned}
+            labelsQuery={labelsQuery}
+          />
+          <LabelButtonContainer
+            labelsAssigned={labelsAssigned}
+            setLabelsAssigned={setLabelsAssigned}
+            selection={selection}
+          />
+        </div>
+        <ChartContainer
+          labelsAssigned={labelsAssigned}
+          setSelection={setSelection}
+          labelsQuery={labelsQuery}
+          observationsQuery={observationsQuery}
+          singlePulseQuery={singlePulseQuery}
+          observationRegionKnownPulsarsQuery={observationRegionKnownPulsarsQuery}
+        />
+        <SinglePulsePaginationButton
+          pageNumber={pageNumber}
+          setPageNumber={setPageNumber}
+          pageSize={pageSize}
+          singlePulseQuery={singlePulseQuery}
+          singlePulseCount={singlePulseCount}
+        />
+      </div>
+    </div>
   );
 }
 

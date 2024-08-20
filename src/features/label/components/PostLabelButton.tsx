@@ -1,3 +1,5 @@
+import SaveIcon from '@mui/icons-material/Save';
+import { IconButton } from '@mui/material';
 import { UseQueryResult } from '@tanstack/react-query';
 
 import { useCreateLabels } from '../api/createLabels';
@@ -64,7 +66,8 @@ function PostLabelButton({ ...props }: PostLabelButtonProps) {
   }
 
   return (
-    <button
+    <IconButton
+      className="button"
       type="button"
       onClick={handleClick}
       disabled={
@@ -72,9 +75,22 @@ function PostLabelButton({ ...props }: PostLabelButtonProps) {
         !props.labelsQuery.isSuccess ||
         props.labelsAssigned.length === 0
       }
+      sx={{
+        borderRadius: 0,
+        '&:hover': {
+          border: '1px solid transparent',
+          borderColor: '#646cff',
+          borderStyle: 'solid'
+        },
+        '&.Mui-disabled': {
+          '& .MuiSvgIcon-root': {
+            color: '#a0a0a0'
+          }
+        }
+      }}
     >
-      Save labels
-    </button>
+      <SaveIcon sx={{ color: '#cccccc' }} />
+    </IconButton>
   );
 }
 

@@ -1,0 +1,33 @@
+.sp-labeller-container {
+    display: flex;
+    flex-direction: row;
+}
+
+
+.sp-options-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 12%;
+    margin-left: -6%;
+    gap: 20px;
+}
+
+
+.sp-chart-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 3%;
+    gap: 5px;
+}
+
+
+.sp-label-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-self: baseline;
+    margin-bottom: -5%;
+    margin-left: 75px;
+    justify-content: space-around;
+    z-index: 1;
+}
