@@ -6,9 +6,14 @@ export async function countSinglePulses(
   observationIds: number[],
   latest: boolean
 ): Promise<number> {
-  const params = { latest: String(latest) };
-  const searchParams = new URLSearchParams(JSON.stringify(params));
-  observationIds.forEach((id: number) => searchParams.append('observation_id', `${id}`));
+  const searchParams = new URLSearchParams();
+
+  // If fetching latest observation, ignore any observationIds in state
+  if (latest) {
+    searchParams.append('latest', String(latest));
+  } else {
+    observationIds.forEach((id: number) => searchParams.append('observation_id', String(id)));
+  }
 
   try {
     const response = await api.get<number>(`/candle/sp/count/?${searchParams.toString()}`);
