@@ -5,6 +5,7 @@ import { basePlotLayout, subplotDimensions } from '../config';
 
 interface ChartProps {
   data: Partial<Plotly.PlotData>[];
+  layout: Partial<Plotly.Layout>;
   setSelection: React.Dispatch<React.SetStateAction<number[]>>;
   setHoverPoint: React.Dispatch<React.SetStateAction<Plotly.PlotHoverEvent | null>>;
   subplot: string | undefined;
@@ -125,7 +126,7 @@ function Chart({ ...props }: ChartProps) {
         onDeselect={handleDeselect}
         onHover={handleHover}
         onUnhover={handleUnhover}
-        layout={basePlotLayout}
+        layout={props.layout}
         style={{ width: '100%' }}
         useResizeHandler
       />
