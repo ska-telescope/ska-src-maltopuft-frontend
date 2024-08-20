@@ -4,7 +4,6 @@ import { IconButton } from '@mui/material';
 import { UseQueryResult } from '@tanstack/react-query';
 
 import { SinglePulse } from '../types';
-
 import '../styles/SinglePulsePaginationButton.css';
 
 interface SinglePulsePaginationButtonProps {
@@ -24,6 +23,18 @@ function SinglePulsePaginationButton({ ...props }: SinglePulsePaginationButtonPr
 
   function handlePrevClick(): void {
     props.setPageNumber((old: number) => Math.max(old - 1, 0));
+  }
+
+  function computeMinPage(): number {
+    return props.singlePulseCount.isSuccess && props.singlePulseCount.data > 0
+      ? props.pageNumber + 1
+      : 0;
+  }
+
+  function computeMaxPage(): number | string {
+    return props.singlePulseCount.isSuccess
+      ? Math.ceil(props.singlePulseCount.data / props.pageSize)
+      : '...';
   }
 
   return (
@@ -64,10 +75,7 @@ function SinglePulsePaginationButton({ ...props }: SinglePulsePaginationButtonPr
         </IconButton>
       </div>
       <span>
-        Page {props.pageNumber + 1} of{' '}
-        {props.singlePulseCount.isSuccess
-          ? Math.ceil(props.singlePulseCount.data / props.pageSize)
-          : '...'}
+        Page {computeMinPage()} of {computeMaxPage()}
       </span>
     </div>
   );
