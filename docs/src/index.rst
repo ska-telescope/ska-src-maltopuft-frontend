@@ -32,17 +32,17 @@ ska-src-maltopuft-frontend documentation
    README.md
 
 
-.. Pages =============================================================
+.. Documentation pages ================================================
 ..
 
 .. toctree::
    :maxdepth: 2
-   :caption: Documentation
-
-   pages/getting-started.md
-   pages/repository-structure.rst
-   pages/development-configuration.md
-   pages/containerisation.md
+   :caption: Developer guide
+   
+   pages/developer-guide/getting-started.rst
+   pages/developer-guide/repository-structure.rst
+   pages/developer-guide/development-configuration.rst
+   pages/developer-guide/containerisation.rst
 
 
 .. Indices and tables =================================================
