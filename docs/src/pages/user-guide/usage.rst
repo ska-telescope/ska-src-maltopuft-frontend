@@ -67,7 +67,7 @@ Examining a few diagnostic subplots displayed when hovering over candidates sugg
 .. figure:: ../../assets/usage/single-pulse.jpg
    :align: center
 
-   Example diagnostic subplots for a candidate (`top`) and a larger version of the plot (`bottom`). The top-left plot is a 3D histogram of the observed frequency vs. time where the third dimension is the intensity of the radio emission. The top-right plot is ... . The bottom-left plot is the frequency vs. time histogram after de-dispersion at the fitted DM. The bottom-right plot is a "scrunched" version of the de-dispersed frequency vs. time histogram which is computed by integrating the intensity over all frequencies.
+   Example diagnostic subplots for a candidate (`top`) and a larger version of the plot (`bottom`). The top-left plot is a 3D histogram of the observed frequency vs. time where the third dimension is the intensity of the radio emission. The top-right plot is a measure of the power as a function of frequency, computed by integrating the intensity of (dispersed) radio emission over the time interval of the detection. The bottom-left plot is the frequency vs. time histogram after de-dispersion at the fitted DM. The bottom-right plot is a "scrunched" version of the de-dispersed frequency vs. time histogram which is computed by integrating the intensity over all frequencies.
 
 By contrast, candidates with larger DM do not appear to be real radio pulses. This candidate is likely to RFI.
 
