@@ -11,7 +11,7 @@ An example view of the single pulse labeller is shown below.
 
    Single pulse labeller.
 
-Each point on the chart is a candidate. In general, candidates are short bursts of radio emission detected by a telescoppe. Currently, all MALTOPUFT candidates are detected by the MeerTRAP single pulse search pipeline. There are plans to support the ingestion of data archives from other telescopes in the future.
+Each point on the chart is a candidate. In general, candidates are short bursts of radio emission detected by a telescope. Currently, all MALTOPUFT candidates are detected by the MeerTRAP single pulse search pipeline. There are plans to support the ingestion of data archives from other telescopes in the future.
 
 The MeerTRAP single pulse search pipeline measures several properties of the detected pulse, including the `Dispersion Measure <https://astronomy.swin.edu.au/cosmos/P/Pulsar+Dispersion+Measure>`_ (DM) which is the integrated column density of free electrons between an observer (in this case, the telescope) and the source of the radio emission.
 
@@ -24,10 +24,10 @@ In addition to patterns in groups of candidates, diagnostic subplots for individ
 
    Diagnostic subplots are displayed while hovering over candidates.
 
-These plots suggest that the candidate is a true single pulse, such that the candidate can be labelled as a single pulse or known source. In this particular case, the candidate is located in the same patch of sky and the same DM as the known pulsar ``B0628-28``, suggesting that the candidate is a known source.
+These plots suggest that the candidate is a true single pulse, such that the candidate can be labelled as a single pulse or known source. In this particular case, the candidate is located in the same patch of sky and has the same DM as the known pulsar ``PSR B0628-28``, suggesting that the candidate is a known source.
 
 .. note::
 
     An explanation of how to use diagnostic subplots to make classification decisions is out of scope for this overview.
 
-The dashed horizontal line (constant DM) on the chart is a *known source* (in the example screenshot above, the pulsar ``B0628-28``). Known sources are retrieved if they fall in a cone with radius 1 degree around the centre of the observation. Overlaying known sources assists with identifying whether pulses may have been emitted by a known or unknown source.
+The dashed horizontal line (constant DM) on the chart is a *known source* (in the example screenshot above, the pulsar ``PSR B0628-28``). Known sources are retrieved if they fall in a cone with radius 1 degree around the centre of the observation. Overlaying known sources assists with identifying whether pulses may have been emitted by a known or unknown source.

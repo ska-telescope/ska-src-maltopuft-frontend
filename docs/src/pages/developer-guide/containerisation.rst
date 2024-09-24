@@ -2,7 +2,7 @@
 Containerisation
 ================
 
-`Podman <https://podman.io/docs>`_ is the preferred container engine, although `Docker <https://www.docker.com/get-started/>`_ can be used equivilently (as a first port of call, try simply replacing `podman --> docker` in any commands below).
+`Podman <https://podman.io/docs>`_ is the preferred container engine, although `Docker <https://www.docker.com/get-started/>`_ can be used equivalently (as a first port of call, try simply replacing `podman --> docker` in any commands below).
 
 The steps below assume that your container engine of choice is configured and running on your machine.
 
