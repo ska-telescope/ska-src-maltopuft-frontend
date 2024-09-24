@@ -96,7 +96,7 @@ Known sources
 
 In the previous section, it was identified from the diagnostic subplots that candidates clustered around the same DM as pulsar ``B0628-28`` are likely to be real radio pulses. However, should these candidates be labelled as a new single pulse or known pulsar?
 
-To understand this, we can consider the properties of pulsar ``B0628-28``. The `ATNF pulsar catalogue <https://www.atnf.csiro.au/people/pulsar/psrcat/psrcat_help.html>`_ records a period of 1.24 ms and DM of 34.4 kpc cm^-3. From the chart, we can immediately identify that the clusters of radio emission occur at a similar DM and occur with a period of around 1.2 ms. We can be confident that these candidates originated from a known pulsar.
+To understand this, we can consider the properties of pulsar ``B0628-28``. The `ATNF pulsar catalogue <https://www.atnf.csiro.au/people/pulsar/psrcat/psrcat_help.html>`_ records a period of 1.24 s and DM of 34.4 kpc cm^-3. From the chart, we can immediately identify that the clusters of radio emission occur at a similar DM and occur with a period of around 1.2 s. We can be confident that these candidates originated from a known pulsar.
 
 .. tip::
     

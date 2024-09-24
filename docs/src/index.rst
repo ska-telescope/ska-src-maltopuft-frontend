@@ -46,7 +46,7 @@ ska-src-maltopuft-frontend documentation
    :maxdepth: 2
    :caption: Developer guide
    
-   pages/developer-guide/getting-started.rst
+   pages/developer-guide/quickstart.rst
    pages/developer-guide/development-configuration.rst
    pages/developer-guide/containerisation.rst
    pages/developer-guide/repository-structure.rst

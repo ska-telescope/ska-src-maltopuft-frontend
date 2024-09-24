@@ -28,7 +28,7 @@ An outline of the repository structure is given below:
 * ``cypress``: Configuration and end-to-end (e2e) test files for the `Cypress <https://www.cypress.io/>`_ framework.
 * ``docs``: Developer documentation pages generated with `sphinx <https://www.sphinx-doc.org/en/master/>`_.
 * ``src``: Application code.
-    * ``__tests__``: Component unit tests (using Cypress).
+    * ``__tests__``: Component and unit tests (using Cypress).
     * ``components``: Generic components which can be re-used across several other (unrelated) components.
     * ``config``: Global application configuration such as environment variables.
     * ``features``: 

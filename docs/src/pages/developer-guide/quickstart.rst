@@ -1,6 +1,8 @@
-===============
-Getting started
-===============
+==========
+Quickstart
+==========
+
+The MALTOPUFT frontend only supports Linux (and Mac) OS. Use the instructions below to deploy the MALTOPUFT frontend on Linux or Mac.
 
 Prerequisites
 =============
