@@ -1,6 +1,7 @@
-import Axios, { InternalAxiosRequestConfig } from 'axios';
+import Axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 import { AUTH_API_URL, BACKEND_API_URL, SUBPLOT_URL } from '@/config';
+import { logout } from '@/features/auth/api/auth';
 import { Token } from '@/features/auth/types';
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
@@ -25,6 +26,19 @@ export const api = Axios.create({
 });
 
 api.interceptors.request.use(authRequestInterceptor);
+api.interceptors.response.use(
+  // If no error, just return the response
+  (response: AxiosResponse) => response,
+  (error: AxiosError) => {
+    // Force logout if API returns unauthorised status code
+    if (error?.response?.status === 401) {
+      logout();
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default api;
 
 export const authAPI = Axios.create({
   baseURL: AUTH_API_URL

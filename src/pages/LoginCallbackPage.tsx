@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Navigate } from 'react-router-dom';
 
-import { fetchToken } from '@/features/auth/api/login.ts';
+import { fetchToken } from '@/features/auth/api/fetchToken';
 
 function LoginCallbackPage() {
   function getCodeFromURL() {
@@ -24,7 +24,7 @@ function LoginCallbackPage() {
 
   if (isSuccess) {
     localStorage.setItem('maltopuft-token', JSON.stringify(data.token));
-    return <Navigate to="/" />;
+    return <Navigate to="/label" />;
   }
 
   return null;
