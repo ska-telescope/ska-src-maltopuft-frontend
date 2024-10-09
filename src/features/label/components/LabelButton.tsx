@@ -27,8 +27,7 @@ function LabelButton({ ...props }: LabelButtonProps) {
 
     const newLabels: Label[] = props.selection.map((selectedId: number) => ({
       candidate_id: selectedId,
-      entity_id: props.entityId,
-      labeller_id: 1 // Hard code user id for now
+      entity_id: props.entityId
     }));
 
     // Update the state with combined labels
