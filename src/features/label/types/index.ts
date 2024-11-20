@@ -13,6 +13,7 @@ export type Candidate = Response<{
   width: number;
   ra: string;
   dec: string;
+  observed_at: Date;
 }>;
 
 export interface Entity {
@@ -47,7 +48,6 @@ export type Observation = Response<{
 export type SinglePulse = Response<{
   candidate_id: number;
   plot_path: string;
-  observed_at: Date;
   candidate: Candidate;
 }>;
 

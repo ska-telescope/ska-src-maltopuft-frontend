@@ -170,7 +170,7 @@ function ChartContainer({ ...props }: ChartContainerProps) {
       plotData.push({
         ...basePlotData,
         name: entity.type,
-        x: entity.candidates.map((sp: SinglePulse) => sp.observed_at),
+        x: entity.candidates.map((sp: SinglePulse) => sp.candidate.observed_at),
         y: entity.candidates.map((sp: SinglePulse) => sp.candidate.dm),
         customdata: entity.candidates.map((sp: SinglePulse) => sp.candidate_id),
         marker: {
@@ -215,11 +215,11 @@ function ChartContainer({ ...props }: ChartContainerProps) {
   function getAxisValues(): AxisValues {
     return fetchedSinglePulses.reduce<AxisValues>(
       (acc, curr) => {
-        if (!acc.xMin || curr.observed_at < acc.xMin) {
-          acc.xMin = curr.observed_at;
+        if (!acc.xMin || curr.candidate.observed_at < acc.xMin) {
+          acc.xMin = curr.candidate.observed_at;
         }
-        if (!acc.xMax || curr.observed_at > acc.xMax) {
-          acc.xMax = curr.observed_at;
+        if (!acc.xMax || curr.candidate.observed_at > acc.xMax) {
+          acc.xMax = curr.candidate.observed_at;
         }
         if (!acc.yMin || curr.candidate.dm < acc.yMin) {
           acc.yMin = curr.candidate.dm;
